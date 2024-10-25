@@ -1,5 +1,4 @@
 package agh.ics.oop.model;
-import agh.ics.oop.model.Vector2d;
 
 public enum MapDirection {
     NORTH,
@@ -20,8 +19,8 @@ public enum MapDirection {
         return switch (this) {
             case NORTH -> EAST;
             case SOUTH -> WEST;
-            case WEST -> SOUTH;
-            case EAST -> NORTH;
+            case WEST -> NORTH;
+            case EAST -> SOUTH;
         };
     }
 
@@ -29,8 +28,8 @@ public enum MapDirection {
         return switch (this) {
             case NORTH -> WEST;
             case SOUTH -> EAST;
-            case WEST -> NORTH;
-            case EAST -> SOUTH;
+            case WEST -> SOUTH;
+            case EAST -> NORTH;
         };
     }
 
