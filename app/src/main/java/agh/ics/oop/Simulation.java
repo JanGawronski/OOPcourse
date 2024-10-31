@@ -14,8 +14,15 @@ public class Simulation {
         for (Vector2d position : positions)
             animals.add(new Animal(position));
         this.directions = directions;
-        
     }
+
+    public void run() {
+        for (int i = 0; i < directions.size(); i++) {
+            animals.get(i % animals.size()).move(directions.get(i));
+            System.out.println(String.format("Zwierzę %d: %s", i % animals.size(), animals.get(i % animals.size())));
+        }
+    }
+
 
     
 }

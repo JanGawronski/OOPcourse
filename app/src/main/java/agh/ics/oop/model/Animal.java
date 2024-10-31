@@ -26,7 +26,7 @@ public class Animal {
     }
 
     public String toString() {
-        return String.format("Zwierzę znajduje się na pozycji %s w kierunku %s", position.toString(), orientation.toString());
+        return String.format("%s w kierunku %s", position.toString(), orientation.toString());
     }
 
     public boolean isAt(Vector2d position) {
