@@ -1,19 +1,19 @@
 package agh.ics.oop.model;
 
 public class Animal {
-    private MapDirection orientation;
+    private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
 
+    static final private Vector2d defaultPostion = new Vector2d(2, 2);
+    
     static final private Vector2d lowerLeftBoundary = new Vector2d(0,0);
     static final private Vector2d upperRightBoundary = new Vector2d(4,4);
 
     public Animal() {
-        this.orientation = MapDirection.NORTH;
-        this.position = new Vector2d(2, 2);
+        this.position = defaultPostion;
     }
 
-    public Animal(MapDirection orientation, Vector2d position) {
-        this.orientation = orientation;
+    public Animal(Vector2d position) {
         this.position = position;
     }
 
@@ -37,13 +37,13 @@ public class Animal {
         switch (direction) {
             case FORWARD: {
                 Vector2d potentialPosition = position.add(orientation.toUnitVector());
-                if (potentialPosition.precedes(lowerLeftBoundary) && potentialPosition.follows(upperRightBoundary))
+                if (potentialPosition.follows(lowerLeftBoundary) && potentialPosition.precedes(upperRightBoundary))
                     position = potentialPosition;
                 break;
             }
             case BACKWARD: {
                 Vector2d potentialPosition = position.subtract(orientation.toUnitVector());
-                if (potentialPosition.precedes(lowerLeftBoundary) && potentialPosition.follows(upperRightBoundary))
+                if (potentialPosition.follows(lowerLeftBoundary) && potentialPosition.precedes(upperRightBoundary))
                     position = potentialPosition;
                 break;
             }
