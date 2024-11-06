@@ -1,7 +1,7 @@
 package agh.ics.oop.model;
 
 public class Animal {
-    private MapDirection orientation = MapDirection.NORTH;
+    private MapDirection orientation;
     private Vector2d position;
 
     static final private Vector2d defaultPostion = new Vector2d(2, 2);
@@ -10,11 +10,12 @@ public class Animal {
     static final private Vector2d upperRightBoundary = new Vector2d(4,4);
 
     public Animal() {
-        this.position = defaultPostion;
+        this(defaultPostion);
     }
 
     public Animal(Vector2d position) {
         this.position = position;
+        this.orientation = MapDirection.NORTH;
     }
 
     public MapDirection getOrientation() {

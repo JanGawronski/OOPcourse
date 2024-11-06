@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private List<Animal> animals = new ArrayList<Animal>();
+    private List<Animal> animals = new ArrayList<Animal>(); // using ArrayList because program much more often gets elements by index than deletes or adds them
     private List<MoveDirection> directions; 
 
     public Simulation(List<Vector2d> positions, List<MoveDirection> directions) {
@@ -23,6 +23,7 @@ public class Simulation {
         }
     }
 
-
-    
+    List<Animal> getAnimals() { // package-private getter used only for testing
+        return animals;
+    }
 }
