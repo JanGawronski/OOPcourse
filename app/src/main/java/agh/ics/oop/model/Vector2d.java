@@ -65,7 +65,7 @@ public class Vector2d {
     }
 
     public boolean equals(Object other){
-        if(!(other instanceof Vector2d))
+        if(other.getClass() != this.getClass())
             return false;
 
         Vector2d that = (Vector2d) other;

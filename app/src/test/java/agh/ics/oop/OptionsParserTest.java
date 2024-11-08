@@ -5,33 +5,35 @@ import agh.ics.oop.model.MoveDirection;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 class OptionsParserTest {
 
     @Test
     void parseSingleLetters() {
-        assertArrayEquals(OptionsParser.parse(new String[]{"f"}), new MoveDirection[]{MoveDirection.FORWARD});
-        assertArrayEquals(OptionsParser.parse(new String[]{"b"}), new MoveDirection[]{MoveDirection.BACKWARD});
-        assertArrayEquals(OptionsParser.parse(new String[]{"l"}), new MoveDirection[]{MoveDirection.LEFT});
-        assertArrayEquals(OptionsParser.parse(new String[]{"r"}), new MoveDirection[]{MoveDirection.RIGHT});
-        assertArrayEquals(OptionsParser.parse(new String[]{"_"}), new MoveDirection[]{});        
+        assertEquals(List.of(MoveDirection.FORWARD), OptionsParser.parse(new String[]{"f"}));
+        assertEquals(List.of(MoveDirection.BACKWARD), OptionsParser.parse(new String[]{"b"}));
+        assertEquals(List.of(MoveDirection.LEFT), OptionsParser.parse(new String[]{"l"}));
+        assertEquals(List.of(MoveDirection.RIGHT), OptionsParser.parse(new String[]{"r"}));
+        assertEquals(new ArrayList<MoveDirection>(), OptionsParser.parse(new String[]{"_"}));        
     }
 
     @Test
     void parseMultipleLetters() {
-        assertArrayEquals(OptionsParser.parse(new String[]{"f", "b", "l", "r", "_", "f", "f", "f"}), new MoveDirection[]{
+        assertEquals(List.of(
             MoveDirection.FORWARD,
             MoveDirection.BACKWARD,
             MoveDirection.LEFT,
             MoveDirection.RIGHT,
             MoveDirection.FORWARD,
             MoveDirection.FORWARD,
-            MoveDirection.FORWARD,
-        });
+            MoveDirection.FORWARD
+        ), OptionsParser.parse(new String[]{"f", "b", "l", "r", "_", "f", "f", "f"}));
     }
 
     @Test
     void parseIncorrectStrings() {
-        assertArrayEquals(OptionsParser.parse(new String[]{"abcdef", "", "should", "not", "work", "F", "B", "L", "R"}), new MoveDirection[]{});
+        assertEquals(new ArrayList<MoveDirection>(), OptionsParser.parse(new String[]{"abcdef", "", "should", "not", "work", "F", "B", "L", "R"}));
     }   
 }
