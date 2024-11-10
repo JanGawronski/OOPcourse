@@ -18,7 +18,7 @@ public class RectangularMap implements WorldMap{
 
     @Override
     public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition()))
+        if (!canMoveTo(animal.getPosition()))
             return false;
         
         animals.put(animal.getPosition(), animal);

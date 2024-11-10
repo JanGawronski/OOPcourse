@@ -13,20 +13,24 @@ public class Simulation {
     private final WorldMap map;
 
     public Simulation(List<Vector2d> positions, List<MoveDirection> directions, WorldMap map) {
-        for (Vector2d position : positions)
-            animals.add(new Animal(position));
+        for (Vector2d position : positions){
+            Animal animal = new Animal(position);
+            if(map.place(animal)){
+                animals.add(animal);
+            }
+        }
         this.directions = directions;
         this.map = map;
     }
 
     public void run() {
         for (int i = 0; i < directions.size(); i++) {
-            map.move(animals.get(i), directions.get(i));
+            map.move(animals.get(i % animals.size()), directions.get(i));
             System.out.println(map);
         }
     }
 
     List<Animal> getAnimals() { // package-private getter used only for testing
-        return animals;
+        return  animals;
     }
 }
