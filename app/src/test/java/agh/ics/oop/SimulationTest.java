@@ -21,7 +21,7 @@ class SimulationTest {
         List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(4, 4));
         Simulation simulation = new Simulation(Collections.unmodifiableList(positions), new ArrayList<MoveDirection>(), new RectangularMap(4, 4));
 
-        List<Animal> animals = Collections.unmodifiableList(simulation.getAnimals());
+        List<Animal> animals = Collections.unmodifiableList(simulation.getPawns());
 
         assertEquals(positions.size(), animals.size());
 
@@ -35,7 +35,7 @@ class SimulationTest {
     void run() {
         Simulation simulation1 = new Simulation(List.of(new Vector2d(1,0)), OptionsParser.parse(new String[]{"f", "f", "b", "r", "f", "f"}), new RectangularMap(4, 4));
         simulation1.run(); 
-        List<Animal> animals1 = simulation1.getAnimals();
+        List<Animal> animals1 = simulation1.getPawns();
 
         assertEquals(new Vector2d(3, 1), animals1.get(0).getPosition());
         assertEquals(MapDirection.EAST, animals1.get(0).getOrientation());
@@ -44,7 +44,7 @@ class SimulationTest {
         
         Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(3,4)), OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"}), new RectangularMap(4, 4));
         simulation2.run(); 
-        List<Animal> animals2 = simulation2.getAnimals();
+        List<Animal> animals2 = simulation2.getPawns();
 
         assertEquals(new Vector2d(3, 0), animals2.get(0).getPosition());
         assertEquals(MapDirection.SOUTH, animals2.get(0).getOrientation());
