@@ -31,6 +31,6 @@ public class Simulation {
     }
 
     List<Animal> getAnimals() { // package-private getter used only for testing
-        return  animals;
+        return new ArrayList<Animal>(animals);
     }
 }
