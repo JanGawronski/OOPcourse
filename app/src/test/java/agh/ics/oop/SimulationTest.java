@@ -12,45 +12,44 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-
 
 class SimulationTest {
     @Test
-    void animalsInitialState() {
-        List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(4, 4));
-        Simulation simulation = new Simulation(Collections.unmodifiableList(positions), new ArrayList<MoveDirection>(), new RectangularMap(4, 4));
+    void pawnsInitialState() {
+        List<Animal> animals = List.of(new Animal(new Vector2d(0, 0)), new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(2, 3)), new Animal(new Vector2d(2, 2)), new Animal(new Vector2d(4, 4)));
+        Simulation<Animal, Vector2d> simulation = new Simulation<Animal, Vector2d>(animals, new ArrayList<MoveDirection>(), new RectangularMap(4, 4));
 
-        List<Animal> animals = Collections.unmodifiableList(simulation.getPawns());
+        List<Animal> animalsFromSimulation = simulation.getPawns();
 
-        assertEquals(positions.size(), animals.size());
+        assertEquals(animals.size(), animalsFromSimulation.size());
 
-        for (int i = 0; i < animals.size(); i++) {
-            assertEquals(positions.get(i), animals.get(i).getPosition());
-            assertEquals(MapDirection.NORTH, animals.get(i).getOrientation());
-        }
+        for (int i = 0; i < animals.size(); i++) 
+            assertEquals(animals.get(i), animalsFromSimulation.get(i));
     }
 
     @Test
     void run() {
-        Simulation simulation1 = new Simulation(List.of(new Vector2d(1,0)), OptionsParser.parse(new String[]{"f", "f", "b", "r", "f", "f"}), new RectangularMap(4, 4));
+        List<Animal> animals1 = List.of(new Animal(new Vector2d(1, 0)));
+        List<MoveDirection> directions1 = List.of(MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD);
+        Simulation<Animal, Vector2d> simulation1 = new Simulation<Animal, Vector2d>(animals1, directions1, new RectangularMap(4, 4));
         simulation1.run(); 
-        List<Animal> animals1 = simulation1.getPawns();
+        List<Animal> animalsFromSimulation1 = simulation1.getPawns();
 
-        assertEquals(new Vector2d(3, 1), animals1.get(0).getPosition());
+        assertEquals(new Vector2d(3, 1), animalsFromSimulation1.get(0).getPosition());
         assertEquals(MapDirection.EAST, animals1.get(0).getOrientation());
 
 
-        
-        Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(3,4)), OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"}), new RectangularMap(4, 4));
+        List<Animal> animals2 = List.of(new Animal(new Vector2d(2, 2)), new Animal(new Vector2d(3, 4)));
+        List<MoveDirection> directions2 = List.of(MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.RIGHT);
+        Simulation<Animal, Vector2d> simulation2 = new Simulation<Animal, Vector2d>(animals2, directions2, new RectangularMap(4, 4));
         simulation2.run(); 
-        List<Animal> animals2 = simulation2.getPawns();
+        List<Animal> animalsFromSimulation2 = simulation2.getPawns();
 
-        assertEquals(new Vector2d(3, 0), animals2.get(0).getPosition());
-        assertEquals(MapDirection.SOUTH, animals2.get(0).getOrientation());
+        assertEquals(new Vector2d(2, 3), animalsFromSimulation2.get(0).getPosition());
+        assertEquals(MapDirection.SOUTH, animalsFromSimulation2.get(0).getOrientation());
 
-        assertEquals(new Vector2d(2, 4), animals2.get(1).getPosition());
-        assertEquals(MapDirection.NORTH, animals2.get(1).getOrientation());
+        assertEquals(new Vector2d(3, 3), animalsFromSimulation2.get(1).getPosition());
+        assertEquals(MapDirection.NORTH, animalsFromSimulation2.get(1).getOrientation());
     }
 
 

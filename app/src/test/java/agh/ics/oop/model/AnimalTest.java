@@ -23,7 +23,7 @@ class AnimalTest {
     @Test
     void orientationAfterTurning() {
         Animal animal = new Animal();
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
 
         animal.move(MoveDirection.RIGHT, map);
@@ -54,7 +54,7 @@ class AnimalTest {
     @Test
     void positionAfterMoving() {
         Animal animal = new Animal(new Vector2d(1, 1));
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
 
         animal.move(MoveDirection.FORWARD, map);
@@ -79,7 +79,7 @@ class AnimalTest {
     @Test
     void staysWithinBounds() {
         Animal animal = new Animal(new Vector2d(0, 0));
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         //animal check left border
         for (int i = 0; i <= 4; i++) {
@@ -143,7 +143,7 @@ class AnimalTest {
     @Test
     void isAt() {
         Animal animal = new Animal(new Vector2d(1, 0));
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         assertTrue(animal.isAt(new Vector2d(1, 0)));
 

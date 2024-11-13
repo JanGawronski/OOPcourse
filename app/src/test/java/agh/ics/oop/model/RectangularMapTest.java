@@ -7,7 +7,7 @@ public class RectangularMapTest {
     @Test
     void place() {
         Animal animal = new Animal(new Vector2d(2, 3));
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         assertTrue(map.place(animal));
         assertFalse(map.place(animal));
@@ -18,7 +18,7 @@ public class RectangularMapTest {
     void objectAt() {
         final Vector2d position = new Vector2d(2, 3);
         Animal animal = new Animal(position);
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         map.place(animal);
 
@@ -33,7 +33,7 @@ public class RectangularMapTest {
     void isOccupied() {
         final Vector2d position = new Vector2d(2, 3);
         Animal animal = new Animal(position);
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         map.place(animal);
 
@@ -49,7 +49,7 @@ public class RectangularMapTest {
     void placeMultiple() {
         Vector2d[] positions = {new Vector2d(0, 0), new Vector2d(1, 0), new Vector2d(2, 3), new Vector2d(4, 4)};
         Animal[] animals = {new Animal(positions[0]), new Animal(positions[1]), new Animal(positions[2]), new Animal(positions[3])};
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         assertTrue(map.place(animals[0]));
         assertTrue(map.place(animals[1]));
@@ -81,7 +81,7 @@ public class RectangularMapTest {
     void canMoveTo() {
         Vector2d[] positions = {new Vector2d(0, 0), new Vector2d(1, 0), new Vector2d(2, 3), new Vector2d(4, 4)};
         Animal[] animals = {new Animal(positions[0]), new Animal(positions[1]), new Animal(positions[2]), new Animal(positions[3])};
-        WorldMap map = new RectangularMap(4, 4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4, 4);
 
         for (Animal animal : animals) 
             map.place(animal);
