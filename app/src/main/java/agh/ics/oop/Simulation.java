@@ -26,6 +26,6 @@ public class Simulation<T, P> {
     }
 
     List<T> getPawns() {
-        return pawns;
+        return new ArrayList<T>(pawns);
     }
 }
