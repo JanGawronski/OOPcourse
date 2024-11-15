@@ -18,7 +18,7 @@ import java.util.Collections;
 class SimulationTest {
     @Test
     void animalsInitialState() {
-        List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(4, 4), new Vector2d(-1, -1));
+        List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(3, 3), new Vector2d(-1, -1));
         Simulation simulation = new Simulation(Collections.unmodifiableList(positions), new ArrayList<MoveDirection>(), new RectangularMap(4, 4));
 
         List<Animal> animals = simulation.getAnimals();
@@ -43,14 +43,14 @@ class SimulationTest {
 
 
         List<MoveDirection> directions2 = List.of(MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD);
-        Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(3,4)), directions2, new RectangularMap(4, 4));
+        Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(2,3)), directions2, new RectangularMap(4, 4));
         simulation2.run(); 
         List<Animal> animals2 = simulation2.getAnimals();
 
-        assertEquals(new Vector2d(2, 0), animals2.get(0).getPosition());
+        assertEquals(new Vector2d(3, 0), animals2.get(0).getPosition());
         assertEquals(MapDirection.SOUTH, animals2.get(0).getOrientation());
 
-        assertEquals(new Vector2d(3, 4), animals2.get(1).getPosition());
+        assertEquals(new Vector2d(1, 3), animals2.get(1).getPosition());
         assertEquals(MapDirection.NORTH, animals2.get(1).getOrientation());
     }
 

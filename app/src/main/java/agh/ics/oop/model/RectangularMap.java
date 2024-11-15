@@ -13,7 +13,7 @@ public class RectangularMap implements WorldMap{
     final private MapVisualizer mapVisualizer = new MapVisualizer(this);
     
     public RectangularMap(int width, int height) {
-        upperRightBoundary = new Vector2d(width, height);
+        upperRightBoundary = new Vector2d(width - 1, height - 1);
     }
 
     @Override
