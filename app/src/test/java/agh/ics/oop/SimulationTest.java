@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,12 +18,12 @@ import java.util.Collections;
 class SimulationTest {
     @Test
     void animalsInitialState() {
-        List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(4, 4));
-        Simulation simulation = new Simulation(Collections.unmodifiableList(positions), new ArrayList<MoveDirection>());
+        List<Vector2d> positions = List.of(new Vector2d(0, 0), new Vector2d(1, 2), new Vector2d(2, 3), new Vector2d(2, 2), new Vector2d(4, 4), new Vector2d(-1, -1));
+        Simulation simulation = new Simulation(Collections.unmodifiableList(positions), new ArrayList<MoveDirection>(), new RectangularMap(4, 4));
 
-        List<Animal> animals = Collections.unmodifiableList(simulation.getAnimals());
+        List<Animal> animals = simulation.getAnimals();
 
-        assertEquals(positions.size(), animals.size());
+        assertEquals(positions.size() - 1, animals.size()); // one animal is not placed on the map
 
         for (int i = 0; i < animals.size(); i++) {
             assertEquals(positions.get(i), animals.get(i).getPosition());
@@ -32,7 +33,8 @@ class SimulationTest {
 
     @Test
     void run() {
-        Simulation simulation1 = new Simulation(List.of(new Vector2d(1,0)), OptionsParser.parse(new String[]{"f", "f", "b", "r", "f", "f"}));
+        List<MoveDirection> directions1 = List.of(MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD);
+        Simulation simulation1 = new Simulation(List.of(new Vector2d(1,0)), directions1, new RectangularMap(4, 4));
         simulation1.run(); 
         List<Animal> animals1 = simulation1.getAnimals();
 
@@ -40,15 +42,15 @@ class SimulationTest {
         assertEquals(MapDirection.EAST, animals1.get(0).getOrientation());
 
 
-        
-        Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(3,4)), OptionsParser.parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"}));
+        List<MoveDirection> directions2 = List.of(MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD);
+        Simulation simulation2 = new Simulation(List.of(new Vector2d(2,2), new Vector2d(3,4)), directions2, new RectangularMap(4, 4));
         simulation2.run(); 
         List<Animal> animals2 = simulation2.getAnimals();
 
-        assertEquals(new Vector2d(3, 0), animals2.get(0).getPosition());
+        assertEquals(new Vector2d(2, 0), animals2.get(0).getPosition());
         assertEquals(MapDirection.SOUTH, animals2.get(0).getOrientation());
 
-        assertEquals(new Vector2d(2, 4), animals2.get(1).getPosition());
+        assertEquals(new Vector2d(3, 4), animals2.get(1).getPosition());
         assertEquals(MapDirection.NORTH, animals2.get(1).getOrientation());
     }
 

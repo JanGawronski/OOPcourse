@@ -5,9 +5,6 @@ public class Animal {
     private Vector2d position;
 
     static final private Vector2d defaultPostion = new Vector2d(2, 2);
-    
-    static final private Vector2d lowerLeftBoundary = new Vector2d(0,0);
-    static final private Vector2d upperRightBoundary = new Vector2d(4,4);
 
     public Animal() {
         this(defaultPostion);
@@ -27,24 +24,30 @@ public class Animal {
     }
 
     public String toString() {
-        return String.format("%s w kierunku %s", position.toString(), orientation.toString());
+        return switch (this.orientation) {
+            case NORTH -> "^";
+            case SOUTH -> "∨";
+            case WEST -> "<";
+            case EAST -> ">";
+        };
+
     }
 
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
 
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator moveValidator) {
         switch (direction) {
             case FORWARD: {
                 Vector2d potentialPosition = position.add(orientation.toUnitVector());
-                if (potentialPosition.follows(lowerLeftBoundary) && potentialPosition.precedes(upperRightBoundary))
+                if (moveValidator.canMoveTo(potentialPosition))
                     position = potentialPosition;
                 break;
             }
             case BACKWARD: {
                 Vector2d potentialPosition = position.subtract(orientation.toUnitVector());
-                if (potentialPosition.follows(lowerLeftBoundary) && potentialPosition.precedes(upperRightBoundary))
+                if (moveValidator.canMoveTo(potentialPosition))
                     position = potentialPosition;
                 break;
             }
