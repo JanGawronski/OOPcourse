@@ -4,59 +4,36 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+
+import agh.ics.oop.model.util.RandomPositionGenerator;
 
 public class GrassField extends AbstractWorldMap {
-    private final Map<Vector2d, Grass> map = new HashMap<>();
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
 
-    public GrassField(int amountOfGrass) {
-        Random random = new Random();
-        int i = 0;
-        while (i < amountOfGrass) {
-            int x = random.nextInt((int) Math.sqrt(amountOfGrass) * 10);
-            int y = random.nextInt((int) Math.sqrt(amountOfGrass) * 10);
-            Vector2d position = new Vector2d(x, y);
-            
-            if (!isOccupied(position)) {
-                map.put(position, new Grass(position));
-                i++;
-            }
-        }  
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return super.isOccupied(position) || map.get(position) != null;
+    public GrassField(int grassCount) {
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator((int)Math.sqrt(grassCount * 10) + 1, (int)Math.sqrt(grassCount * 10) + 1, grassCount);
+        for(Vector2d grassPosition : randomPositionGenerator) 
+            grasses.put(grassPosition, new Grass(grassPosition));
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
         if (super.objectAt(position) != null)
             return super.objectAt(position);
-        return map.get(position);
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return animals.get(position) == null;
+        return grasses.get(position);
     }
 
     public String toString() {
-        Vector2d upperRight = map.keySet().iterator().next();
-        Vector2d lowerLeft = upperRight;
+        List<WorldElement> elements = getElements();
+        if (elements.isEmpty())
+            return mapVisualizer.draw(new Vector2d(0, 0), new Vector2d(0, 0));
 
-        for (Vector2d position : map.keySet()) {
-            if (position.precedes(lowerLeft))
-                lowerLeft = position;
-            if (position.follows(upperRight))
-                upperRight = position;
-        }
+        Vector2d lowerLeft = elements.getFirst().getPosition();
+        Vector2d upperRight = elements.getFirst().getPosition();
 
-        for (Vector2d position : animals.keySet()) {
-            if (position.precedes(lowerLeft))
-                lowerLeft = position;
-            if (position.follows(upperRight))
-                upperRight = position;
+        for (WorldElement element : elements) { 
+            lowerLeft = lowerLeft.lowerLeft(element.getPosition());
+            upperRight = upperRight.upperRight(element.getPosition());
         }
 
         return mapVisualizer.draw(lowerLeft, upperRight);
@@ -65,7 +42,7 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public List<WorldElement> getElements() {
         List<WorldElement> elements = super.getElements();
-        elements.addAll(new ArrayList<>(map.values()));
+        elements.addAll(new ArrayList<>(grasses.values()));
         return elements;
     }
 }

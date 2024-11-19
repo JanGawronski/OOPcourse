@@ -100,7 +100,7 @@ public class RectangularMapTest {
 
 
     @Test
-    public void testMove(){
+    public void move(){
         RectangularMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(2, 2));
         Animal animal2 = new Animal(new Vector2d(3, 2));
@@ -123,5 +123,18 @@ public class RectangularMapTest {
 
         map.move(animal1, MoveDirection.FORWARD);
         assertEquals(new Vector2d(3, 2), animal1.getPosition());
+    }
+
+    @Test
+    void getElements() {
+        RectangularMap map = new RectangularMap(4, 4);
+        Animal animal1 = new Animal(new Vector2d(2, 2));
+        Animal animal2 = new Animal(new Vector2d(3, 2));
+        map.place(animal1);
+        map.place(animal2);
+
+        assertEquals(2, map.getElements().size());
+        assertTrue(map.getElements().contains(animal1));
+        assertTrue(map.getElements().contains(animal2));
     }
 }
