@@ -47,7 +47,7 @@ public class RectangularMapTest {
 
     @Test 
     void placeMultiple() {
-        Vector2d[] positions = {new Vector2d(0, 0), new Vector2d(1, 0), new Vector2d(2, 3), new Vector2d(4, 4)};
+        Vector2d[] positions = {new Vector2d(0, 0), new Vector2d(1, 0), new Vector2d(2, 3), new Vector2d(3, 3)};
         Animal[] animals = {new Animal(positions[0]), new Animal(positions[1]), new Animal(positions[2]), new Animal(positions[3])};
         WorldMap map = new RectangularMap(4, 4);
 
@@ -100,21 +100,21 @@ public class RectangularMapTest {
 
 
     @Test
-    public void testMove(){
+    public void move(){
         RectangularMap map = new RectangularMap(4, 4);
-        Animal animal1 = new Animal(new Vector2d(2, 3));
+        Animal animal1 = new Animal(new Vector2d(2, 2));
         Animal animal2 = new Animal(new Vector2d(3, 2));
         map.place(animal1);
         map.place(animal2);
 
         map.move(animal1, MoveDirection.FORWARD);
-        assertEquals(new Vector2d(2, 4), animal1.getPosition());
+        assertEquals(new Vector2d(2, 3), animal1.getPosition());
 
         map.move(animal1, MoveDirection.BACKWARD);
-        assertEquals(new Vector2d(2, 3), animal1.getPosition());
+        assertEquals(new Vector2d(2, 2), animal1.getPosition());
 
         map.move(animal1, MoveDirection.RIGHT);
-        assertEquals(new Vector2d(2, 3), animal1.getPosition());
+        assertEquals(new Vector2d(2, 2), animal1.getPosition());
 
 
         map.move(animal2, MoveDirection.FORWARD);
@@ -122,6 +122,19 @@ public class RectangularMapTest {
 
 
         map.move(animal1, MoveDirection.FORWARD);
-        assertEquals(new Vector2d(2, 3), animal1.getPosition());
+        assertEquals(new Vector2d(3, 2), animal1.getPosition());
+    }
+
+    @Test
+    void getElements() {
+        RectangularMap map = new RectangularMap(4, 4);
+        Animal animal1 = new Animal(new Vector2d(2, 2));
+        Animal animal2 = new Animal(new Vector2d(3, 2));
+        map.place(animal1);
+        map.place(animal2);
+
+        assertEquals(2, map.getElements().size());
+        assertTrue(map.getElements().contains(animal1));
+        assertTrue(map.getElements().contains(animal2));
     }
 }
