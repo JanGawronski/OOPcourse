@@ -10,21 +10,26 @@ import java.util.Map;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
-    protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
-    
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+    protected final List<MapChangeListener> observers = new ArrayList<>();
+
     @Override
     public void move(Animal animal, MoveDirection direction) {
         Vector2d oldPosition = animal.getPosition();
         animal.move(direction, this);
-        animals.remove(oldPosition);
-        animals.put(animal.getPosition(), animal);
+        if (!animal.getPosition().equals(oldPosition)) {
+            animals.remove(oldPosition);
+            animals.put(animal.getPosition(), animal);
+            notifyObservers("Animal moved from " + oldPosition + " to " + animal.getPosition());
+        }
     }
 
     @Override
     public void place(Animal animal) throws IncorrectPositionException {
-        if (canMoveTo(animal.getPosition()))
-            animals.put(animal.getPosition(), animal);    
-        else
+        if (canMoveTo(animal.getPosition())) {
+            animals.put(animal.getPosition(), animal);
+            notifyObservers("Animal placed at " + animal.getPosition());
+        } else
             throw new IncorrectPositionException(animal.getPosition());
     }
 
@@ -39,6 +44,9 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
+    abstract public Boundary getCurrentBounds();
+
+    @Override
     public List<WorldElement> getElements() {
         return new ArrayList<>(animals.values());
     }
@@ -47,4 +55,25 @@ public abstract class AbstractWorldMap implements WorldMap {
     public boolean canMoveTo(Vector2d position) {
         return !animals.containsKey(position);
     }
+
+    @Override
+    public String toString() {
+        Boundary boundary = getCurrentBounds();
+        return mapVisualizer.draw(boundary.lowerLeft(), boundary.upperRight());
+    }
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    protected void notifyObservers(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
+    }
+
 }

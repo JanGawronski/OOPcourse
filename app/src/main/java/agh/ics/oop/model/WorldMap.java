@@ -45,6 +45,13 @@ public interface WorldMap extends MoveValidator {
     WorldElement objectAt(Vector2d position);
 
     /**
+     * Return boundaries of map.
+     *
+     * @return boundary object containing Vector2d lowerLeft and Vector2d upperRight.
+     */
+    Boundary getCurrentBounds();
+
+    /**
      * Return a collection of elements on the map.
      *.
      * @return Collection of WorldElement.
