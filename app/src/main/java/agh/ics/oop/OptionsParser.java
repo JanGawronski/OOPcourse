@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class OptionsParser {
     public static ArrayList<MoveDirection> parse(String[] moves) {
-        ArrayList<MoveDirection> moveList = new ArrayList<MoveDirection>();  // using ArrayList because program much more often gets elements by index than deletes or adds them
+        ArrayList<MoveDirection> moveList = new ArrayList<MoveDirection>();
         for (String string : moves) {
             switch (string) {
                 case "f" -> moveList.add(MoveDirection.FORWARD);

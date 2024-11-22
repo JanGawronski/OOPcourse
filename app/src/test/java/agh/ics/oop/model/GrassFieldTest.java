@@ -6,6 +6,8 @@ import agh.ics.oop.model.util.IncorrectPositionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 public class GrassFieldTest {
     @Test
     void grassCount() {
@@ -110,6 +112,39 @@ public class GrassFieldTest {
         map.move(animal, MoveDirection.FORWARD);
         assertEquals(new Vector2d(1, 3), animal.getPosition());
     }
+
+    @Test
+    void getCurrentBounds() {
+        GrassField map = new GrassField(10);
+        Boundary bounds1 = map.getCurrentBounds();
+
+        Vector2d lowerLeft = new Vector2d(0, 0);
+        Vector2d upperRight = new Vector2d(0, 0);
+
+        List<WorldElement> elements = map.getElements();
+        for (WorldElement element : elements) {
+            lowerLeft = lowerLeft.lowerLeft(element.getPosition());
+            upperRight = upperRight.upperRight(element.getPosition());
+        }
+
+
+        assertEquals(lowerLeft, bounds1.lowerLeft());
+        assertEquals(upperRight, bounds1.upperRight());
+
+        Animal animal = new Animal(new Vector2d(100, 200));
+        assertDoesNotThrow(() -> map.place(animal));
+        Boundary bounds2 = map.getCurrentBounds();
+        assertEquals(new Vector2d(0, 0), bounds2.lowerLeft());
+        assertEquals(new Vector2d(100, 200), bounds2.upperRight());
+
+
+        Animal animal2 = new Animal(new Vector2d(-50, -20));
+        assertDoesNotThrow(() -> map.place(animal2));
+        Boundary bounds3 = map.getCurrentBounds();
+        assertEquals(new Vector2d(-50, -20), bounds3.lowerLeft());
+        assertEquals(new Vector2d(100, 200), bounds3.upperRight());
+    }
+
 
     @Test
     void getElements() {

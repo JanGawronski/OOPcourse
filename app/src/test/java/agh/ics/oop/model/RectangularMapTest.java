@@ -129,6 +129,14 @@ public class RectangularMapTest {
     }
 
     @Test
+    void getCurrentBounds() {
+        RectangularMap map = new RectangularMap(4, 5);
+        Boundary boundary = map.getCurrentBounds();
+        assertEquals(new Vector2d(0, 0), boundary.lowerLeft());
+        assertEquals(new Vector2d(3, 4), boundary.upperRight());
+    }
+
+    @Test
     void getElements() {
         RectangularMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(2, 2));
