@@ -11,8 +11,14 @@ public class World {
         if (args.length == 0)
             args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
 
+        List<MoveDirection> directions;
+        try {
+            directions = OptionsParser.parse(args);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        List<MoveDirection> directions = OptionsParser.parse(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
         Simulation simulation = new Simulation(positions, directions, new GrassField(10));
         simulation.run(); 

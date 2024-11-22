@@ -22,9 +22,9 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     @Override
     public Iterator<Vector2d> iterator() {
         return new Iterator<Vector2d>() {
-            Random random = new Random();
-            int generated = 0;
-            List<Vector2d> positionsLeft = new ArrayList<>(allPositions);
+            private final Random random = new Random();
+            private int generated = 0;
+            private final List<Vector2d> positionsLeft = new ArrayList<>(allPositions);
 
             @Override
             public boolean hasNext() {

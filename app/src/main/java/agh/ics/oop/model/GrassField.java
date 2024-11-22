@@ -23,6 +23,11 @@ public class GrassField extends AbstractWorldMap {
         return grasses.get(position);
     }
 
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return super.isOccupied(position) || grasses.containsKey(position);
+    }
+
     public String toString() {
         List<WorldElement> elements = getElements();
         if (elements.isEmpty())

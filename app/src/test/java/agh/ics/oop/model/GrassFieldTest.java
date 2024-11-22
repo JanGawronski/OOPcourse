@@ -25,7 +25,7 @@ public class GrassFieldTest {
     void isOccupied() {
         GrassField map = new GrassField(10);
         for (WorldElement element : map.getElements())
-            assertFalse(map.isOccupied(element.getPosition()));
+            assertTrue(map.isOccupied(element.getPosition()));
         
         Animal[] animals = {new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4))};
         for (Animal animal : animals) {
