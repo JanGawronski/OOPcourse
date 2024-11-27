@@ -2,7 +2,7 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
-import agh.ics.oop.model.util.IncorrectPositionException;
+import agh.ics.oop.model.exceptions.IncorrectPositionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

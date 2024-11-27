@@ -2,7 +2,7 @@ package agh.ics.oop.model;
 
 import java.util.Collection;
 
-import agh.ics.oop.model.util.IncorrectPositionException;
+import agh.ics.oop.model.exceptions.IncorrectPositionException;
 
 /**
  * The interface responsible for interacting with the map of the world.
