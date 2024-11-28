@@ -1,6 +1,9 @@
 package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
+
+import agh.ics.oop.model.exceptions.IncorrectPositionException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RectangularMapTest {
@@ -9,8 +12,8 @@ public class RectangularMapTest {
         Animal animal = new Animal(new Vector2d(2, 3));
         WorldMap map = new RectangularMap(4, 4);
 
-        assertTrue(map.place(animal));
-        assertFalse(map.place(animal));
+        assertDoesNotThrow(() -> map.place(animal));
+        assertThrowsExactly(IncorrectPositionException.class, () -> map.place(animal));
     }
 
 
@@ -20,7 +23,7 @@ public class RectangularMapTest {
         Animal animal = new Animal(position);
         WorldMap map = new RectangularMap(4, 4);
 
-        map.place(animal);
+        assertDoesNotThrow(() -> map.place(animal));
 
         assertEquals(animal, map.objectAt(position));
 
@@ -35,7 +38,7 @@ public class RectangularMapTest {
         Animal animal = new Animal(position);
         WorldMap map = new RectangularMap(4, 4);
 
-        map.place(animal);
+        assertDoesNotThrow(() -> map.place(animal));
 
         assertTrue(map.isOccupied(position));
 
@@ -51,12 +54,12 @@ public class RectangularMapTest {
         Animal[] animals = {new Animal(positions[0]), new Animal(positions[1]), new Animal(positions[2]), new Animal(positions[3])};
         WorldMap map = new RectangularMap(4, 4);
 
-        assertTrue(map.place(animals[0]));
-        assertTrue(map.place(animals[1]));
-        assertTrue(map.place(animals[2]));
-        assertFalse(map.place(animals[2]));
-        assertTrue(map.place(animals[3]));
-        assertFalse(map.place(animals[0]));
+        assertDoesNotThrow(() -> map.place(animals[0]));
+        assertDoesNotThrow(() -> map.place(animals[1]));
+        assertDoesNotThrow(() -> map.place(animals[2]));
+        assertThrowsExactly(IncorrectPositionException.class, () -> map.place(animals[2]));
+        assertDoesNotThrow(() -> map.place(animals[3]));
+        assertThrowsExactly(IncorrectPositionException.class, () -> map.place(animals[0]));
 
 
         for (int i = 0; i < animals.length; i++) 
@@ -84,7 +87,7 @@ public class RectangularMapTest {
         WorldMap map = new RectangularMap(4, 4);
 
         for (Animal animal : animals) 
-            map.place(animal);
+        assertDoesNotThrow(() -> map.place(animal));
         
         for (Vector2d position : positions) 
             assertFalse(map.canMoveTo(position));
@@ -104,8 +107,8 @@ public class RectangularMapTest {
         RectangularMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(2, 2));
         Animal animal2 = new Animal(new Vector2d(3, 2));
-        map.place(animal1);
-        map.place(animal2);
+        assertDoesNotThrow(() -> map.place(animal1));
+        assertDoesNotThrow(() -> map.place(animal2));
 
         map.move(animal1, MoveDirection.FORWARD);
         assertEquals(new Vector2d(2, 3), animal1.getPosition());
@@ -126,12 +129,20 @@ public class RectangularMapTest {
     }
 
     @Test
+    void getCurrentBounds() {
+        RectangularMap map = new RectangularMap(4, 5);
+        Boundary boundary = map.getCurrentBounds();
+        assertEquals(new Vector2d(0, 0), boundary.lowerLeft());
+        assertEquals(new Vector2d(3, 4), boundary.upperRight());
+    }
+
+    @Test
     void getElements() {
         RectangularMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(new Vector2d(2, 2));
         Animal animal2 = new Animal(new Vector2d(3, 2));
-        map.place(animal1);
-        map.place(animal2);
+        assertDoesNotThrow(() -> map.place(animal1))    ;
+        assertDoesNotThrow(() -> map.place(animal2));
 
         assertEquals(2, map.getElements().size());
         assertTrue(map.getElements().contains(animal1));

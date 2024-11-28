@@ -23,10 +23,16 @@ public class GrassField extends AbstractWorldMap {
         return grasses.get(position);
     }
 
-    public String toString() {
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        return super.isOccupied(position) || grasses.containsKey(position);
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
         List<WorldElement> elements = getElements();
         if (elements.isEmpty())
-            return mapVisualizer.draw(new Vector2d(0, 0), new Vector2d(0, 0));
+            return new Boundary(new Vector2d(0, 0), new Vector2d(0, 0));
 
         Vector2d lowerLeft = elements.getFirst().getPosition();
         Vector2d upperRight = elements.getFirst().getPosition();
@@ -36,7 +42,7 @@ public class GrassField extends AbstractWorldMap {
             upperRight = upperRight.upperRight(element.getPosition());
         }
 
-        return mapVisualizer.draw(lowerLeft, upperRight);
+        return new Boundary(lowerLeft, upperRight);
     }
     
     @Override
