@@ -21,7 +21,7 @@ public class Simulation {
                 map.place(animal);
                 animals.add(animal);
             } catch (IncorrectPositionException e) {
-                e.printStackTrace();
+                // Ignoring exception and not adding animal to the map
             } 
         }   
                 
