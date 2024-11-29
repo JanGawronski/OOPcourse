@@ -35,7 +35,7 @@ public class World {
         }
 
         SimulationEngine engine = new SimulationEngine(simulations);
-        engine.runAsync();
+        engine.runAsyncInThreadPool();
 
         
         System.out.println("system zakończył działanie");
