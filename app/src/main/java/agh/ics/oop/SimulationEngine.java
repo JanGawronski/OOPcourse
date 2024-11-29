@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class SimulationEngine {
     private final List<Simulation> simulations;
     private final List<Thread> threads = new ArrayList<>();
-    private ExecutorService threadPool = Executors.newFixedThreadPool(4);
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(4);
 
     public SimulationEngine(List<Simulation> simulations) {
         this.simulations = simulations;
@@ -31,10 +31,10 @@ public class SimulationEngine {
     }
 
     public void runAsyncInThreadPool() {
-        threadPool = Executors.newFixedThreadPool(4);
         for (Simulation simulation : simulations) {
             threadPool.submit(simulation::run);
         }
+        awaitSimulationsEnd();
     }
 
 
