@@ -31,23 +31,21 @@ public class SimulationEngine {
     }
 
     public void runAsyncInThreadPool() {
-        for (Simulation simulation : simulations) {
+        for (Simulation simulation : simulations)
             threadPool.submit(simulation::run);
-        }
         awaitSimulationsEnd();
     }
 
-
     public void awaitSimulationsEnd() {
         try {
-            for (Thread thread : threads) 
-                    thread.join();
+            for (Thread thread : threads)
+                thread.join();
             threads.clear();
-            
+
             threadPool.shutdown();
             if (!threadPool.awaitTermination(10, TimeUnit.SECONDS))
                 threadPool.shutdownNow();
-    
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Simulation {
     private final List<Animal> animals = new ArrayList<Animal>();
-    private final List<MoveDirection> directions; 
+    private final List<MoveDirection> directions;
     private final WorldMap map;
 
     public Simulation(List<Vector2d> positions, List<MoveDirection> directions, WorldMap map) {
@@ -22,15 +22,15 @@ public class Simulation {
                 animals.add(animal);
             } catch (IncorrectPositionException e) {
                 // Ignoring exception and not adding animal to the map
-            } 
-        }   
-                
+            }
+        }
+
         this.directions = directions;
         this.map = map;
     }
 
     public void run() {
-        for (int i = 0; i < directions.size(); i++) 
+        for (int i = 0; i < directions.size(); i++)
             map.move(animals.get(i % animals.size()), directions.get(i));
     }
 
