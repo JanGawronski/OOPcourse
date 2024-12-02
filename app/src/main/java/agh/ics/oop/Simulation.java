@@ -9,7 +9,7 @@ import agh.ics.oop.model.exceptions.IncorrectPositionException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable{
     private final List<Animal> animals = new ArrayList<Animal>();
     private final List<MoveDirection> directions;
     private final WorldMap map;
@@ -29,6 +29,7 @@ public class Simulation {
         this.map = map;
     }
 
+    @Override
     public void run() {
         for (int i = 0; i < directions.size(); i++)
             map.move(animals.get(i % animals.size()), directions.get(i));

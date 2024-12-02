@@ -23,7 +23,7 @@ public class SimulationEngine {
 
     public void runAsync() {
         for (Simulation simulation : simulations) {
-            Thread thread = new Thread(simulation::run);
+            Thread thread = new Thread(simulation);
             threads.add(thread);
             thread.start();
         }
@@ -32,7 +32,7 @@ public class SimulationEngine {
 
     public void runAsyncInThreadPool() {
         for (Simulation simulation : simulations)
-            threadPool.submit(simulation::run);
+            threadPool.submit(simulation);
         awaitSimulationsEnd();
     }
 
