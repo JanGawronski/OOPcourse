@@ -28,7 +28,7 @@ public class World {
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
         List<Simulation> simulations = new ArrayList<>();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             AbstractWorldMap map = i % 2 == 0 ? new RectangularMap(5, 5) : new GrassField(10);
             map.addObserver(new ConsoleMapDisplay());
             simulations.add(new Simulation(positions, directions, map));
@@ -36,7 +36,11 @@ public class World {
 
         SimulationEngine engine = new SimulationEngine(simulations);
         engine.runAsyncInThreadPool();
-
+        try {
+            engine.awaitSimulationsEnd();
+        } catch (InterruptedException e) {
+            // Thread was interrupted, ignoring exception
+        }
         System.out.println("system zakończył działanie");
     }
 
