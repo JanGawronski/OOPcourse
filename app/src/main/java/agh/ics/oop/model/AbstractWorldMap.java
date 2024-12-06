@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
-    protected final List<MapChangeListener> observers = new ArrayList<>();
+    private final List<MapChangeListener> observers = new ArrayList<>();
+    private final UUID id = UUID.randomUUID();
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
@@ -52,6 +54,11 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
+    public UUID getId() {
+        return id;
+    }
+
+    @Override
     public boolean canMoveTo(Vector2d position) {
         return !animals.containsKey(position);
     }
@@ -70,7 +77,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         observers.remove(observer);
     }
 
-    protected void notifyObservers(String message) {
+    private void notifyObservers(String message) {
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this, message);
         }

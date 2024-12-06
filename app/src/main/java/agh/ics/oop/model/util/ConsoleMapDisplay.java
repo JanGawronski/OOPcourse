@@ -8,8 +8,10 @@ public class ConsoleMapDisplay implements MapChangeListener {
 
     @Override
     public void mapChanged(WorldMap map, String message) {
-            System.out.println(moveCounter++ + ". move");
+        synchronized (System.out) {
+            System.out.println(String.format("%d.move in map %s", moveCounter++, map.getId()));
             System.out.println(message);
             System.out.println(map);
         }
+    }
 }

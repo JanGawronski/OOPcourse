@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.Collection;
+import java.util.UUID;
 
 import agh.ics.oop.model.exceptions.IncorrectPositionException;
 
@@ -50,6 +51,13 @@ public interface WorldMap extends MoveValidator {
      * @return boundary object containing Vector2d lowerLeft and Vector2d upperRight.
      */
     Boundary getCurrentBounds();
+
+    /**
+     * Return the id of the map.
+     *
+     * @return id of the map.
+     */
+    UUID getId();
 
     /**
      * Return a collection of elements on the map.
