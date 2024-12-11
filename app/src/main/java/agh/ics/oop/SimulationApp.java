@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.presenter.SimulationPresenter;
+import agh.ics.oop.model.AbstractWorldMap;
 
 import java.io.IOException;
 
@@ -14,12 +15,23 @@ public class SimulationApp extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("menu.fxml"));
         BorderPane viewRoot = loader.load();
-        SimulationPresenter presenter = loader.getController(); 
+        SimulationPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
+    }
 
+    public void launchSimulationWindow(AbstractWorldMap map) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
+        BorderPane viewRoot = loader.load();
+        SimulationPresenter presenter = loader.getController();
+        presenter.setMap(map);
+        map.addObserver(presenter);
+        Stage stage = new Stage();
+        configureStage(stage, viewRoot);
+        stage.show();
     }
 
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {
@@ -30,8 +42,4 @@ public class SimulationApp extends javafx.application.Application {
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
 
-    
-
-
-    
 }

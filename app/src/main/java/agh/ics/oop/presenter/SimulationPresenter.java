@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.Stage;
 
 import agh.ics.oop.Simulation;
 import agh.ics.oop.SimulationApp;
@@ -100,19 +99,12 @@ public class SimulationPresenter implements MapChangeListener {
         List<MoveDirection> directions = OptionsParser.parse(moveList.split("\\s+"));
         List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
         AbstractWorldMap map = new GrassField(10);
-        setMap(map);
-        map.addObserver(this);
-        Simulation simulation = new Simulation(positions, directions, map);
-        moveDescriptionLabel.setText("Simulation started with moves: " + moveList);
-        Thread thread = new Thread(simulation);
-        thread.start();
-    }
-
-    @FXML
-    private void onNewSimulationClicked() {
-        SimulationApp simulationApp = new SimulationApp();
         try {
-            simulationApp.start(new Stage());
+            SimulationApp simulationApp = new SimulationApp();
+            simulationApp.launchSimulationWindow(map);
+            Simulation simulation = new Simulation(positions, directions, map);
+            Thread thread = new Thread(simulation);
+            thread.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
