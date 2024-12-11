@@ -15,10 +15,11 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-    javafx {
-        version = "17"
-        modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
-    }
+}
+
+javafx {
+    version = "17"
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
 }
 
 dependencies {
