@@ -1,6 +1,18 @@
 package agh.ics.oop.model;
 
 public class Animal implements WorldElement {
+    private static final String[] DIRECTION_IMAGE_PATH = {
+            "up.png",
+            "down.png",
+            "left.png",
+            "right.png"
+    };
+    private static final String[] DIRECTION_STRING = {
+            "^",
+            "∨",
+            "<",
+            ">"
+    };
     private MapDirection orientation;
     private Vector2d position;
 
@@ -19,18 +31,19 @@ public class Animal implements WorldElement {
         return orientation;
     }
 
+    @Override
     public Vector2d getPosition() {
         return position;
     }
 
-    public String toString() {
-        return switch (this.orientation) {
-            case NORTH -> "^";
-            case SOUTH -> "∨";
-            case WEST -> "<";
-            case EAST -> ">";
-        };
+    @Override
+    public String getImageFileName() {
+        return DIRECTION_IMAGE_PATH[orientation.ordinal()];
+    }
 
+    @Override
+    public String toString() {
+        return DIRECTION_STRING[orientation.ordinal()];
     }
 
     public boolean isAt(Vector2d position) {

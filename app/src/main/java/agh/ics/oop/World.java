@@ -6,6 +6,7 @@ import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.util.ConsoleMapDisplay;
+import agh.ics.oop.model.util.FileMapDisplay;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class World {
             AbstractWorldMap map = i % 2 == 0 ? new RectangularMap(5, 5) : new GrassField(10);
             map.addObserver(new ConsoleMapDisplay());
             map.addObserver((map1, message) -> System.out.println(DateFormat.getDateTimeInstance().format(new Date()) + " " + message));
+            map.addObserver(new FileMapDisplay());
             simulations.add(new Simulation(positions, directions, map));
         }
 
