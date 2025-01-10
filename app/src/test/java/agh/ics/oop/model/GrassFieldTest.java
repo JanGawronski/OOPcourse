@@ -44,12 +44,12 @@ public class GrassFieldTest {
     void objectAt() {
         GrassField map = new GrassField(10);
         for (WorldElement element : map.getElements())
-            assertEquals(element, map.objectAt(element.getPosition()));
+            assertEquals(element, map.objectAt(element.getPosition()).get());
 
         Animal[] animals = { new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4)) };
         for (Animal animal : animals) {
             assertDoesNotThrow(() -> map.place(animal));
-            assertEquals(animal, map.objectAt(animal.getPosition()));
+            assertEquals(animal, map.objectAt(animal.getPosition()).get());
         }
     }
 

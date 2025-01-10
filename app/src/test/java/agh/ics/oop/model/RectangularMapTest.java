@@ -28,11 +28,11 @@ public class RectangularMapTest {
 
         assertDoesNotThrow(() -> map.place(animal));
 
-        assertEquals(animal, map.objectAt(position));
+        assertEquals(animal, map.objectAt(position).get());
 
-        assertEquals(null, map.objectAt(new Vector2d(0, 0)));
-        assertEquals(null, map.objectAt(new Vector2d(3, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(4, 4)));
+        assertEquals(null, map.objectAt(new Vector2d(0, 0)).get());
+        assertEquals(null, map.objectAt(new Vector2d(3, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(4, 4)).get());
     }
 
     @Test
@@ -66,12 +66,12 @@ public class RectangularMapTest {
 
 
         for (int i = 0; i < animals.length; i++) 
-            assertEquals(animals[i], map.objectAt(positions[i]));
+            assertEquals(animals[i], map.objectAt(positions[i]).get());
     
 
-        assertEquals(null, map.objectAt(new Vector2d(0, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(3, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(4, 3)));
+        assertEquals(null, map.objectAt(new Vector2d(0, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(3, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(4, 3)).get());
         
 
         for (Vector2d position : positions) 
