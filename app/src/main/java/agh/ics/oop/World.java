@@ -9,6 +9,8 @@ import agh.ics.oop.model.util.ConsoleMapDisplay;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class World {
     public static void main(String[] args) {
@@ -31,6 +33,7 @@ public class World {
         for (int i = 0; i < 10000; i++) {
             AbstractWorldMap map = i % 2 == 0 ? new RectangularMap(5, 5) : new GrassField(10);
             map.addObserver(new ConsoleMapDisplay());
+            map.addObserver((map1, message) -> System.out.println(DateFormat.getDateTimeInstance().format(new Date()) + " " + message));
             simulations.add(new Simulation(positions, directions, map));
         }
 

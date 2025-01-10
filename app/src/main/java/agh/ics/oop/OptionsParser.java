@@ -1,20 +1,31 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 public class OptionsParser {
-    public static ArrayList<MoveDirection> parse(String[] moves) {
-        ArrayList<MoveDirection> moveList = new ArrayList<MoveDirection>();
-        for (String string : moves) {
-            switch (string) {
-                case "f" -> moveList.add(MoveDirection.FORWARD);
-                case "b" -> moveList.add(MoveDirection.BACKWARD);
-                case "l" -> moveList.add(MoveDirection.LEFT);
-                case "r" -> moveList.add(MoveDirection.RIGHT);
-                default -> throw new IllegalArgumentException(string + " is not legal move specification");
-            }
-        }
-        return moveList;
+    public static List<MoveDirection> parse(String[] moves) {
+        return Stream.of(moves)
+                .map(move -> {
+                    switch (move) {
+                        case "f" -> {
+                            return MoveDirection.FORWARD;
+                        }
+                        case "b" -> {
+                            return MoveDirection.BACKWARD;
+                        }
+                        case "r" -> {
+                            return MoveDirection.RIGHT;
+                        }
+                        case "l" -> {
+                            return MoveDirection.LEFT;
+                        }
+                        default -> throw new IllegalArgumentException(move + " is not a legal move specification");
+                    }
+                })
+                .collect(Collectors.toList());
     }
 }

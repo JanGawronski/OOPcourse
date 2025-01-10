@@ -3,8 +3,11 @@ package agh.ics.oop.model;
 import org.junit.jupiter.api.Test;
 
 import agh.ics.oop.model.exceptions.IncorrectPositionException;
+import agh.ics.oop.model.util.RandomPositionGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 public class RectangularMapTest {
     @Test
@@ -147,5 +150,26 @@ public class RectangularMapTest {
         assertEquals(2, map.getElements().size());
         assertTrue(map.getElements().contains(animal1));
         assertTrue(map.getElements().contains(animal2));
+    }
+
+     @Test
+    void getOrderedAnimals() {
+        RectangularMap map = new RectangularMap(10, 10);
+        for (Vector2d position : new RandomPositionGenerator(10, 10, 10)) {
+            try {
+                map.place(new Animal(position));
+            } catch (IncorrectPositionException e) {
+                fail();
+            }
+        }
+
+        List<Animal> animals = map.getOrderedAnimals();
+        for (int i = 0; i < animals.size() - 1; i++) {
+            if (animals.get(i).getPosition().getX() > animals.get(i + 1).getPosition().getX()
+                    || (animals.get(i).getPosition().getX() == animals.get(i + 1).getPosition().getX()
+                            && animals.get(i).getPosition().getY() > animals.get(i + 1).getPosition().getY()))
+                fail();
+        }
+
     }
 }

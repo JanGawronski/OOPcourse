@@ -5,8 +5,10 @@ import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractWorldMap implements WorldMap {
@@ -36,8 +38,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(animals.get(position));
     }
 
     @Override
@@ -51,6 +53,12 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public List<WorldElement> getElements() {
         return new ArrayList<>(animals.values());
+    }
+
+    @Override
+    public List<Animal> getOrderedAnimals() {
+        return animals.values().stream().sorted(Comparator.comparing((Animal animal) -> animal.getPosition().getX())
+                .thenComparing(animal -> animal.getPosition().getY())).toList();
     }
 
     @Override

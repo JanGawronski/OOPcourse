@@ -3,6 +3,7 @@ package agh.ics.oop.model;
 import org.junit.jupiter.api.Test;
 
 import agh.ics.oop.model.exceptions.IncorrectPositionException;
+import agh.ics.oop.model.util.RandomPositionGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ public class GrassFieldTest {
         for (WorldElement element : map.getElements()) {
             assertTrue(element.getPosition().precedes(upperRight));
             assertTrue(element.getPosition().follows(lowerLeft));
-        }        
+        }
     }
 
     @Test
@@ -31,8 +32,8 @@ public class GrassFieldTest {
         GrassField map = new GrassField(10);
         for (WorldElement element : map.getElements())
             assertTrue(map.isOccupied(element.getPosition()));
-        
-        Animal[] animals = {new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4))};
+
+        Animal[] animals = { new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4)) };
         for (Animal animal : animals) {
             assertDoesNotThrow(() -> map.place(animal));
             assertTrue(map.isOccupied(animal.getPosition()));
@@ -44,8 +45,8 @@ public class GrassFieldTest {
         GrassField map = new GrassField(10);
         for (WorldElement element : map.getElements())
             assertEquals(element, map.objectAt(element.getPosition()));
-        
-        Animal[] animals = {new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4))};
+
+        Animal[] animals = { new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4)) };
         for (Animal animal : animals) {
             assertDoesNotThrow(() -> map.place(animal));
             assertEquals(animal, map.objectAt(animal.getPosition()));
@@ -55,10 +56,10 @@ public class GrassFieldTest {
     @Test
     void place() {
         GrassField map = new GrassField(10);
-        Animal[] animals = {new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4))};
+        Animal[] animals = { new Animal(new Vector2d(1, 2)), new Animal(new Vector2d(3, 4)) };
         for (Animal animal : animals)
             assertDoesNotThrow(() -> map.place(animal));
-        
+
         for (Animal animal : animals)
             assertThrowsExactly(IncorrectPositionException.class, () -> map.place(animal));
     }
@@ -127,7 +128,6 @@ public class GrassFieldTest {
             upperRight = upperRight.upperRight(element.getPosition());
         }
 
-
         assertEquals(lowerLeft, bounds1.lowerLeft());
         assertEquals(upperRight, bounds1.upperRight());
 
@@ -137,14 +137,12 @@ public class GrassFieldTest {
         assertEquals(new Vector2d(0, 0), bounds2.lowerLeft());
         assertEquals(new Vector2d(100, 200), bounds2.upperRight());
 
-
         Animal animal2 = new Animal(new Vector2d(-50, -20));
         assertDoesNotThrow(() -> map.place(animal2));
         Boundary bounds3 = map.getCurrentBounds();
         assertEquals(new Vector2d(-50, -20), bounds3.lowerLeft());
         assertEquals(new Vector2d(100, 200), bounds3.upperRight());
     }
-
 
     @Test
     void getElements() {
@@ -155,5 +153,26 @@ public class GrassFieldTest {
         assertDoesNotThrow(() -> map.place(animal));
         assertEquals(11, map.getElements().size());
         assertTrue(map.getElements().contains(animal));
+    }
+
+    @Test
+    void getOrderedAnimals() {
+        GrassField map = new GrassField(10);
+        for (Vector2d position : new RandomPositionGenerator(10, 10, 10)) {
+            try {
+                map.place(new Animal(position));
+            } catch (IncorrectPositionException e) {
+                fail();
+            }
+        }
+
+        List<Animal> animals = map.getOrderedAnimals();
+        for (int i = 0; i < animals.size() - 1; i++) {
+            if (animals.get(i).getPosition().getX() > animals.get(i + 1).getPosition().getX()
+                    || (animals.get(i).getPosition().getX() == animals.get(i + 1).getPosition().getX()
+                            && animals.get(i).getPosition().getY() > animals.get(i + 1).getPosition().getY()))
+                fail();
+        }
+
     }
 }
