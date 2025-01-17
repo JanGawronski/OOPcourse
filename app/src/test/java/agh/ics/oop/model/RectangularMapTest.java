@@ -3,8 +3,11 @@ package agh.ics.oop.model;
 import org.junit.jupiter.api.Test;
 
 import agh.ics.oop.model.exceptions.IncorrectPositionException;
+import agh.ics.oop.model.util.RandomPositionGenerator;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 public class RectangularMapTest {
     @Test
@@ -25,11 +28,11 @@ public class RectangularMapTest {
 
         assertDoesNotThrow(() -> map.place(animal));
 
-        assertEquals(animal, map.objectAt(position));
+        assertEquals(animal, map.objectAt(position).get());
 
-        assertEquals(null, map.objectAt(new Vector2d(0, 0)));
-        assertEquals(null, map.objectAt(new Vector2d(3, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(4, 4)));
+        assertEquals(null, map.objectAt(new Vector2d(0, 0)).get());
+        assertEquals(null, map.objectAt(new Vector2d(3, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(4, 4)).get());
     }
 
     @Test
@@ -63,12 +66,12 @@ public class RectangularMapTest {
 
 
         for (int i = 0; i < animals.length; i++) 
-            assertEquals(animals[i], map.objectAt(positions[i]));
+            assertEquals(animals[i], map.objectAt(positions[i]).get());
     
 
-        assertEquals(null, map.objectAt(new Vector2d(0, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(3, 1)));
-        assertEquals(null, map.objectAt(new Vector2d(4, 3)));
+        assertEquals(null, map.objectAt(new Vector2d(0, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(3, 1)).get());
+        assertEquals(null, map.objectAt(new Vector2d(4, 3)).get());
         
 
         for (Vector2d position : positions) 
@@ -147,5 +150,26 @@ public class RectangularMapTest {
         assertEquals(2, map.getElements().size());
         assertTrue(map.getElements().contains(animal1));
         assertTrue(map.getElements().contains(animal2));
+    }
+
+     @Test
+    void getOrderedAnimals() {
+        RectangularMap map = new RectangularMap(10, 10);
+        for (Vector2d position : new RandomPositionGenerator(10, 10, 10)) {
+            try {
+                map.place(new Animal(position));
+            } catch (IncorrectPositionException e) {
+                fail();
+            }
+        }
+
+        List<Animal> animals = map.getOrderedAnimals();
+        for (int i = 0; i < animals.size() - 1; i++) {
+            if (animals.get(i).getPosition().getX() > animals.get(i + 1).getPosition().getX()
+                    || (animals.get(i).getPosition().getX() == animals.get(i + 1).getPosition().getX()
+                            && animals.get(i).getPosition().getY() > animals.get(i + 1).getPosition().getY()))
+                fail();
+        }
+
     }
 }
