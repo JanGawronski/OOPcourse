@@ -7,9 +7,12 @@ class BouncyMap(private val height: Int, private val width: Int) : WorldMap {
         if (!canMoveTo(animal.getPosition()))
                 throw IllegalArgumentException("Cannot place animal at ${animal.getPosition()}")
 
-        animals.filterValues { it != animal }
+        val oldPosition = animals.entries.find { it.value == value }?.key
 
-        if (!isOccupied(animal.getPosition())) {
+        if (!isOccupied(animal.getPosition())) {            
+            oldPosition?.let {
+                animals.remove(it)
+            }
             animals[animal.getPosition()] = animal
             return
         }
@@ -17,6 +20,11 @@ class BouncyMap(private val height: Int, private val width: Int) : WorldMap {
         val newPosition =
                 animals.randomFreePosition(Vector2d(width, height))
                         ?: animals.randomPosition() ?: return
+        
+        oldPosition?.let {
+            animals.remove(it)
+        }
+
         animals[newPosition] = animal
         animal.setPosition(newPosition)
     }
